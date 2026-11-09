@@ -1,0 +1,49 @@
+// Measures in the Orders table
+
+Total Sales =
+    SUM(Orders[sales])
+
+Total Profit =
+    SUM(Orders[profit])
+
+Profit Margin % =
+    DIVIDE([Total Profit], [Total Sales])
+
+Total Orders =
+    DISTINCTCOUNT(Orders[order_id])
+
+Total Customers =
+    DISTINCTCOUNT(Orders[customer_id])
+
+Total Quantity =
+    SUM(Orders[quantity])
+
+Avg Discount =
+    AVERAGE(Orders[discount])
+
+Returned Orders =
+    CALCULATE(DISTINCTCOUNT(Orders[order_id]), Orders[is_returned] = 1)
+
+Return Rate % =
+    DIVIDE([Returned Orders], [Total Orders])
+
+Avg Days to Ship =
+    AVERAGE(Orders[days_to_ship])
+
+Sales PY =
+    CALCULATE([Total Sales], SAMEPERIODLASTYEAR('Date'[Date]))
+
+Sales YoY % =
+    VAR PY = [Sales PY] RETURN IF(NOT ISBLANK(PY), DIVIDE([Total Sales] - PY, PY))
+
+Profit YoY % =
+    VAR PY = CALCULATE([Total Profit], SAMEPERIODLASTYEAR('Date'[Date])) RETURN IF(NOT ISBLANK(PY), DIVIDE([Total Profit] - PY, ABS(PY)))
+
+Top 10 Product Sales =
+    IF(ISINSCOPE(Orders[product_name]), VAR R = RANKX(ALLSELECTED(Orders[product_name]), [Total Sales], , DESC) RETURN IF(R <= 10, [Total Sales]))
+
+Profit Gain =
+    VAR P = [Total Profit] RETURN IF(P >= 0, P)
+
+Profit Loss =
+    VAR P = [Total Profit] RETURN IF(P < 0, P)

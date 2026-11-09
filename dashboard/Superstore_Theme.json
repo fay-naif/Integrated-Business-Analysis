@@ -1,0 +1,39 @@
+{
+  "name": "Superstore Navy Teal",
+  "dataColors": [
+    "#1F6FEB",
+    "#14B8A6",
+    "#0B1F3A",
+    "#38BDF8",
+    "#6366F1",
+    "#0EA5A4",
+    "#93C5FD",
+    "#E5484D",
+    "#F59E0B",
+    "#64748B"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#0B1F3A",
+  "tableAccent": "#1F6FEB",
+  "good": "#14B8A6",
+  "bad": "#E5484D",
+  "neutral": "#F59E0B",
+  "textClasses": {
+    "label": {
+      "fontFace": "Segoe UI",
+      "color": "#5B6B7F"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#0B1F3A"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#0B1F3A"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#0B1F3A"
+    }
+  }
+}
