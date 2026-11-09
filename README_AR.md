@@ -61,9 +61,25 @@
 4. لو تبين يقرأ من ملف الإكسل مباشرة: **Transform data → Edit parameters → FilePath** وحطي مسار `data/Superstore_Clean.xlsx` ثم Refresh.
 5. اختياري: **View → Themes → Browse for themes** واختاري `dashboard/Superstore_Theme.json`.
 
+## Python و SQL
+
+فحوصات البيانات والتحليل الأساسي مكتوبة كمان بالكود، وتقدر تشتغل خارج Power BI:
+
+- `python/data_cleaning.py` — فحص جودة البيانات وتجهيزها
+- `python/load_to_sqlite.py` — تحميل البيانات في قاعدة SQLite وتشغيل استعلامات `sql/analysis.sql`
+- `sql/analysis.sql` — استعلامات التحليل
+
+```bash
+pip install -r python/requirements.txt
+python python/data_cleaning.py
+python python/load_to_sqlite.py
+```
+
+النتائج نفس أرقام الداشبورد.
+
 ## الأدوات
 
-Power BI Desktop · DAX · Power Query · Excel
+Power BI Desktop · DAX · Power Query · Excel · Python · SQL
 
 ---
 

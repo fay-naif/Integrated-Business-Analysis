@@ -9,6 +9,8 @@
   <img src="https://img.shields.io/badge/DAX-0b1730?style=for-the-badge&color=0b1730&labelColor=0b1730&logoColor=c9ced8" alt="DAX">
   <img src="https://img.shields.io/badge/Power%20Query-0b1730?style=for-the-badge&color=0b1730&labelColor=0b1730&logoColor=c9ced8" alt="Power Query">
   <img src="https://img.shields.io/badge/Excel-0b1730?style=for-the-badge&color=0b1730&labelColor=0b1730&logoColor=c9ced8&logo=microsoftexcel" alt="Excel">
+  <img src="https://img.shields.io/badge/Python-0b1730?style=for-the-badge&color=0b1730&labelColor=0b1730&logoColor=c9ced8&logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/SQL-0b1730?style=for-the-badge&color=0b1730&labelColor=0b1730&logoColor=c9ced8&logo=sqlite" alt="SQL">
 </p>
 
 <p align="center">
@@ -128,12 +130,32 @@ Top 10 Product Sales =
 
 Orders with no discount earn a 29.5% margin, while every band above 20% discount loses money — orders discounted over 50% have a margin of −119%. Tables, Bookcases and Supplies are the only sub-categories with a total loss.
 
+## Python &amp; SQL
+
+The data checks and the main analysis are also written in code, so they can be re-run outside Power BI:
+
+| File | What it does |
+| --- | --- |
+| [`python/data_cleaning.py`](python/data_cleaning.py) | Rebuilds the derived columns (year, month, days to ship, discount band, region manager), checks they match, runs the 16 quality checks and prints the KPIs and margin by discount band |
+| [`python/load_to_sqlite.py`](python/load_to_sqlite.py) | Loads the data into a SQLite database and runs every query in `sql/analysis.sql` |
+| [`sql/analysis.sql`](sql/analysis.sql) | 10 queries: KPIs, return rate, yearly sales with YoY growth (window function), margin by discount band, deep-discount lines, loss-making sub-categories, region × segment, top 10 products, shipping days, returns by region manager |
+
+```bash
+pip install -r python/requirements.txt
+python python/data_cleaning.py
+python python/load_to_sqlite.py
+```
+
+The results match the figures in the dashboard.
+
 ## Tools
 
 - **Power BI Desktop** — report, semantic model and custom theme
 - **DAX** — measures and time intelligence
 - **Power Query (M)** — loading the clean workbook through a `FilePath` parameter
 - **Excel** — data cleaning and quality checks
+- **Python (pandas)** — data checks and preparation
+- **SQL (SQLite)** — analysis queries
 
 ## Project structure
 
@@ -148,6 +170,12 @@ Integrated-Business-Analysis/
 │   └── DAX-measures.dax
 ├── power-query/
 │   └── queries.pq
+├── python/
+│   ├── data_cleaning.py
+│   ├── load_to_sqlite.py
+│   └── requirements.txt
+├── sql/
+│   └── analysis.sql
 ├── data/
 │   └── Superstore_Clean.xlsx
 ├── screenshots/                               # images used in this README
