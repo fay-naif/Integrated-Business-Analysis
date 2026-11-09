@@ -47,6 +47,34 @@ All pages are collected in [`docs/Business_Analysis_Screens.pdf`](docs/Business_
 
 Columns added during cleaning: `order_year`, `order_month`, `days_to_ship`, `discount_band`, `is_returned` and `region_manager`. The data quality sheet shows 0 blank cells, 0 duplicate records and 0 invalid values. A `Date` table (Year / Quarter / Month) is linked to the order date for the trends and year-over-year measures.
 
+
+## Data cleaning & preparation
+
+Data cleaning, validation and preparation by **Fay Naif**. The workbook starts from the public Superstore sample (the source is credited in the `Data Quality` sheet); every record and column was kept, with no deletions or imputed values.
+
+**Quality checks** (all results are recorded in the `Data Quality` sheet of `data/Superstore_Clean.xlsx`):
+
+| Check | Result |
+| --- | ---: |
+| Records / columns | 9,994 / 26 |
+| Blank cells | 0 |
+| Duplicate records / duplicate `row_id` | 0 / 0 |
+| Invalid numbers / invalid dates | 0 / 0 |
+| Ship date before order date | 0 |
+| `order_year`, `order_month`, `days_to_ship` mismatches | 0 |
+| Discount outside 0–1 / invalid quantity / invalid return flag | 0 |
+| Cells with leading or trailing spaces | 0 |
+| Rows with negative profit (kept as valid data) | 1,871 |
+
+**Columns added:** `order_year`, `order_month`, `days_to_ship`, `discount_band`, `is_returned`, `region_manager`.
+
+**Power Query steps** (full code in [`power-query/queries.pq`](power-query/queries.pq)): load the workbook through the `FilePath` parameter → select the 26 columns → set data types (dates, numbers, text IDs and postal codes) → add `discount_band_order` so discount bands sort correctly. A DAX `Date` table (Year, Quarter, Month) is built from the order dates.
+
+```powerquery
+Typed = Table.TransformColumnTypes(Selected, {{"order_date", type date}, {"ship_date", type date}, {"sales", type number}, {"discount", type number}, {"profit", type number}, ...}, "en-US"),
+BandOrder = Table.AddColumn(Typed, "discount_band_order", each if [discount_band] = "0%" then 1 else if [discount_band] = "1-10%" then 2 else ... else 6, Int64.Type)
+```
+
 ## Report pages
 
 | Page | Focus |
@@ -118,6 +146,8 @@ Integrated-Business-Analysis/
 │   └── Superstore_Theme.json                  # Power BI theme
 ├── dax/
 │   └── DAX-measures.dax
+├── power-query/
+│   └── queries.pq
 ├── data/
 │   └── Superstore_Clean.xlsx
 ├── screenshots/                               # images used in this README
